@@ -1,13 +1,14 @@
-package com.example.eric_lai.androidhelloworld.activity;
+package com.example.eric_lai.androidhelloworld.activity.activity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import com.example.eric_lai.androidhelloworld.R;
 
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MyActivity";
     private static final int REQUEST_TAKE_PHOTO = 1;
+    private static final int REQUEST_UPLOAD = 2;
     private String mCurrentPhotoPath;
 
     @Override
@@ -30,25 +32,33 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Intent intent = new Intent(MainActivity.this, ShowActivity.class);
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-            galleryAddPic();
+            intent.putExtra("image", mCurrentPhotoPath);
+        } else if (requestCode == REQUEST_UPLOAD && resultCode == Activity.RESULT_OK) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumns = {MediaStore.Images.Media.DATA};
+            Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
+            if (c != null) {
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex(filePathColumns[0]);
+                String imagePath = c.getString(columnIndex);
+                intent.putExtra("image", imagePath);
+                c.close();
+            }
         }
+        intent.setClass(MainActivity.this, ShowActivity.class);
+        MainActivity.this.startActivity(intent);
     }
 
     public void uploadPhoto(View view) {
-        // 这里添加启动你的activity的逻辑
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_UPLOAD);
     }
 
     public void takePhoto(View view) {
         dispatchTakePictureIntent();
-    }
-
-    private void galleryAddPic() {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(mCurrentPhotoPath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        this.sendBroadcast(mediaScanIntent);
     }
 
     private void dispatchTakePictureIntent() {
@@ -86,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         );
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
-        Log.v(TAG, "photo is saved in: " + mCurrentPhotoPath);
         return image;
     }
 }
