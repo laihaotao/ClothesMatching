@@ -6,7 +6,7 @@ It is a hackathon project for **conUHacks II** in 2017, which means that it is d
 
 ## Team Members
 
-There are 4 members in our team (the list below follows the first character of the name's order in the alphabet), you can click the name to their webpage if needed:
+There are 4 members in our team (the list below follows the first character of the name's order in the alphabet), you can click the name to their web page if needed:
 
 - [Grey Lee](https://github.com/kidd-4)
 - [Haotao Lai](http://laihaotao.github.io/)
@@ -17,20 +17,20 @@ There are 4 members in our team (the list below follows the first character of t
 
 First of all, we use smart phone using **Android** system to display our idea which means that we have used the Android SDK provided by Google.
 
-Secondly, we use the **machine learning API** provided by Clarifai to detect the dressing style of person who we are going to date with.
+Secondly, we use the **machine learning API** provided by Clarifai to detect the dressing style of people who we are going to date with.
 
 Finally, according to the return data, we matching them with suitable dressing and showing the user an example photo which was given by **bing searching API** provided by Mircosoft.
 
 ## An Example
 
-In the first time you access to the app, you need to choice your gender (the user's gender), and then you have two choices. One is for upload an exist photo in your phone, the ohter is for taking photo using the camera.
+In the first time you access to the app, you need to choice your gender (the user's gender), and then you have two choices. One is for upload an existing photo on your phone, the other is for taking photos using the camera.
 
-![](docs/image/1.jpg)
+![](http://ww2.sinaimg.cn/large/6a831d33jw1fbztp2ztnzj209g0frq4m.jpg)
 
-![](docs/image/2.jpg)
+![](http://ww2.sinaimg.cn/large/6a831d33jw1fbztpkhfc9j209g0frabp.jpg)
 
-![](docs/image/4.jpg)
+![](http://ww3.sinaimg.cn/large/6a831d33jw1fbztrgrgauj209g0fr75k.jpg)
 
-After providing the information required for (using the first photo shown below as example), the app will using the techniques metioned above to give the matching dressing style and an example photo will be displayed on the screen.
+After providing the information required for (using the first photo shown below as an example), the app will use the techniques mentioned above to give the matching dressing style and an example photo will be displayed on the screen.
 
-![](docs/image/5.jpg)
+![](http://ww4.sinaimg.cn/large/6a831d33jw1fbztp9245dj209g0frt9w.jpg)
