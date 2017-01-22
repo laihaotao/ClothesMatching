@@ -11,7 +11,7 @@ There are 4 members in our team (the list below follows the first character of t
 - [Grey Lee](https://github.com/kidd-4)
 - [Haotao Lai](http://laihaotao.github.io/)
 - [Mengying Ding](https://github.com/FrankFranck)
-- Iris Pang
+- [JunLin Pang](http://www.facebook.com/junlin.pang)
 
 ## Related Techniques
 
@@ -25,12 +25,12 @@ Finally, according to the return data, we matching them with suitable dressing a
 
 In the first time you access to the app, you need to choice your gender (the user's gender), and then you have two choices. One is for upload an exist photo in your phone, the ohter is for taking photo using the camera.
 
-![](image/1.jpg)
+![](docs/image/1.jpg)
 
-![](image/2.jpg)
+![](docs/image/2.jpg)
 
-![](image/4.jpg)
+![](docs/image/4.jpg)
 
 After providing the information required for (using the first photo shown below as example), the app will using the techniques metioned above to give the matching dressing style and an example photo will be displayed on the screen.
 
-![](image/5.jpg)
+![](docs/image/5.jpg)
