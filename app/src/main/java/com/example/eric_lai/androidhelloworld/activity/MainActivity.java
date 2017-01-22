@@ -1,4 +1,4 @@
-package com.example.eric_lai.androidhelloworld.activity.activity;
+package com.example.eric_lai.androidhelloworld.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, ShowActivity.class);
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             intent.putExtra("image", mCurrentPhotoPath);
+            intent.putExtra("previous", this.getResources().getInteger(R.integer.TAKE_PHOTO));
         } else if (requestCode == REQUEST_UPLOAD && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
             String[] filePathColumns = {MediaStore.Images.Media.DATA};
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 int columnIndex = c.getColumnIndex(filePathColumns[0]);
                 String imagePath = c.getString(columnIndex);
                 intent.putExtra("image", imagePath);
+                intent.putExtra("previous", this.getResources().getInteger(R.integer.UPLOAD_PHOTO));
                 c.close();
             }
         }
