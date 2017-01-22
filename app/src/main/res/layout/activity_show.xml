@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/background2">
 
 
     <ProgressBar
@@ -19,6 +20,7 @@
             android:visibility="visible"
             android:layout_centerHorizontal="true"
             android:id="@+id/sourceIv"
+            android:layout_marginTop="10dp"
             android:contentDescription="local image"/>
 
     <ImageView
@@ -28,6 +30,17 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/sourceIv"
             android:id="@+id/targetIv"
+            android:layout_marginTop="10dp"
             android:contentDescription="internet image"/>
+    <Button
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:text="Try Again"
+            android:id="@+id/again"
+            android:visibility="invisible"
+            android:onClick="again"
+            android:gravity="center"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

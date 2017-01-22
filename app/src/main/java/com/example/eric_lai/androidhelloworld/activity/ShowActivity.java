@@ -7,13 +7,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.example.eric_lai.androidhelloworld.R;
+import com.example.eric_lai.androidhelloworld.util.ClothesMatch;
 
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -30,31 +31,57 @@ public class ShowActivity extends AppCompatActivity {
     private ImageView sourceIv;
     private ImageView targetIv;
     private ProgressBar progressBar;
+    private Button againBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show);
-//        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         sourceIv = (ImageView) findViewById(R.id.sourceIv);
         targetIv = (ImageView) findViewById(R.id.targetIv);
+        againBtn = (Button) findViewById(R.id.again);
         Intent intent = getIntent();
-        String imagePath = intent.getStringExtra("image");
+        final String imagePath = intent.getStringExtra("image");
         Log.v(TAG, "imagePath: " + imagePath);
-
-        final String targetPath = "https://github.com/LAIHAOTAO/laihaotao.github" +
-                ".io/blob/master/images/merge.JPG?raw=true";
-
-//        setPic(sourceIv, null, imagePath, FILE);
-
+        final String gender = intent.getStringExtra("gender");
+        final String[] targetPath = new String[1];
+        final Thread getRemotePath = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                targetPath[0] = ClothesMatch.getMatchedURL(gender, imagePath);
+                Log.v(TAG, "targetPath: " + targetPath[0]);
+            }
+        });
+        getRemotePath.start();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    URL url = new URL(targetPath);
-                    InputStream stream = url.openConnection().getInputStream();
-                    setPic(targetIv, stream, null, STREAM);
-                    progressBar.setVisibility(View.INVISIBLE);
+                    getRemotePath.join();
+                } catch (InterruptedException e) {
+                    Log.e(TAG, "thread error !!!");
+                    e.printStackTrace();
+                }
+                final Bitmap bmp1 = BitmapFactory.decodeFile(imagePath);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        sourceIv.setImageBitmap(bmp1);
+                    }
+                });
+                try {
+                    URL url = new URL(targetPath[0]);
+                    final InputStream stream = url.openConnection().getInputStream();
+                    final Bitmap bmp = BitmapFactory.decodeStream(stream);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            targetIv.setImageBitmap(bmp);
+                            progressBar.setVisibility(View.INVISIBLE);
+                            againBtn.setVisibility(View.VISIBLE);
+                        }
+                    });
                 } catch (java.io.IOException e) {
                     e.printStackTrace();
                 }
@@ -63,40 +90,11 @@ public class ShowActivity extends AppCompatActivity {
         }).start();
     }
 
-
-    private void setPic(ImageView mImageView, InputStream stream,
-                        String mCurrentPhotoPath, int format) {
-        // Get the dimensions of the View
-        int targetW = mImageView.getWidth();
-        int targetH = mImageView.getHeight();
-
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-
-        if (format == FILE) {
-            BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-        } else {
-            BitmapFactory.decodeStream(stream, null, bmOptions);
-        }
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-
-        // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-        bmOptions.inPurgeable = true;
-
-        Bitmap bitmap;
-        if (format == FILE) {
-            bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-        } else {
-            bitmap = BitmapFactory.decodeStream(stream, null, bmOptions);
-        }
-        mImageView.setImageBitmap(bitmap);
+    public void again(View view) {
+        Intent intent = new Intent(ShowActivity.this, MainActivity.class);
+        intent.setClass(ShowActivity.this, MainActivity.class);
+        finish();
+        ShowActivity.this.startActivity(intent);
     }
 
 }

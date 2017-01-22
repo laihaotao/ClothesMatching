@@ -1,4 +1,4 @@
-package com.example.eric_lai.androidhelloworld.activity.util;
+package com.example.eric_lai.androidhelloworld.util;
 
 import android.graphics.Color;
 
@@ -9,8 +9,10 @@ import java.util.List;
  */
 public class ClothesMatch {
 
-    public static String getMatchedURL(String gender, String filename, int color) {
+    public static String getMatchedURL(String gender, String filename) {
         String[] tags = SourcePrediction.getStyleAndColor(filename);
+        // tag[0]---style, tag[1]---color
+        int color = Color.parseColor(tags[1]);
         String matchedColor = matchColor(color);
         String keyword = SearchEngine.keywordGen(gender, tags[0], matchedColor);
         List<String> result = SearchEngine.bingImageSearch(keyword, 3);

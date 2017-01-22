@@ -1,4 +1,4 @@
-package com.example.eric_lai.androidhelloworld.activity.util;
+package com.example.eric_lai.androidhelloworld.util;
 
 import android.util.Log;
 import okhttp3.OkHttpClient;
@@ -10,9 +10,9 @@ import java.io.IOException;
 /**
  * Created by ERIC_LAI on 2017-01-21.
  */
-public class OkHttpTestHelper {
+public class OkHttpHelper {
 
-    private static final String TAG = "OkHttpTestHelper";
+    private static final String TAG = "OkHttpHelper";
     private Header header;
     private String url;
 
@@ -26,7 +26,7 @@ public class OkHttpTestHelper {
         }
     }
 
-    public OkHttpTestHelper(Header header, String url) {
+    public OkHttpHelper(Header header, String url) {
         this.header = header;
         this.url = url;
     }

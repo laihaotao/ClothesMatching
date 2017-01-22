@@ -1,4 +1,4 @@
-package com.example.eric_lai.androidhelloworld.activity.util;
+package com.example.eric_lai.androidhelloworld.util;
 
 import clarifai2.api.ClarifaiBuilder;
 import clarifai2.api.ClarifaiClient;
@@ -15,6 +15,7 @@ import java.util.List;
  * Created by m.ding on 2017-01-21.
  */
 public class SourcePrediction {
+
 
     public static String[] getStyleAndColor(String path) {
 
